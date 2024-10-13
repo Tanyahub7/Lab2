@@ -1,0 +1,67 @@
+#include <iostream>
+#include <cmath> 
+
+using namespace std;
+
+// Функція для обчислення математичного очікування
+double expected_value(double p_no_event, double profit_no_event, double p_event, double profit_event) {
+    return (p_no_event * profit_no_event) + (p_event * profit_event);
+}
+
+// Функція для обчислення дисперсії
+double variance(double p_no_event, double profit_no_event, double p_event, double profit_event, double exp_value) {
+    return (p_no_event * pow(profit_no_event - exp_value, 2)) + (p_event * pow(profit_event - exp_value, 2));
+}
+
+// Функція для обчислення коефіцієнта варіації
+double coefficient_of_variation(double variance, double exp_value) {
+    return sqrt(variance) / abs(exp_value);
+}
+
+int main() {
+    // Дані для першої фірми
+    double p1_no_event = 0.9; // ймовірність ненастання події
+    double profit1_no_event = 5; // прибуток у разі ненастання події
+    double p1_event = 0.1; // ймовірність настання події
+    double profit1_event = -10; // збиток у разі настання події
+
+    // Дані для другої фірми
+    double p2_no_event = 0.95; // ймовірність ненастання події
+    double profit2_no_event = 10; // прибуток у разі ненастання події
+    double p2_event = 0.05; // ймовірність настання події
+    double profit2_event = -25; // збиток у разі настання події
+
+    // Обчислення сподіваного значення (математичного очікування) для обох фірм
+    double exp_value1 = expected_value(p1_no_event, profit1_no_event, p1_event, profit1_event);
+    double exp_value2 = expected_value(p2_no_event, profit2_no_event, p2_event, profit2_event);
+
+    // Обчислення дисперсії для обох фірм
+    double variance1 = variance(p1_no_event, profit1_no_event, p1_event, profit1_event, exp_value1);
+    double variance2 = variance(p2_no_event, profit2_no_event, p2_event, profit2_event, exp_value2);
+
+    // Обчислення коефіцієнта варіації для обох фірм
+    double coeff_var1 = coefficient_of_variation(variance1, exp_value1);
+    double coeff_var2 = coefficient_of_variation(variance2, exp_value2);
+
+    
+    cout << "Перша фірма:\n";
+    cout << "Математичне очікування: " << exp_value1 << endl;
+    cout << "Дисперсія: " << variance1 << endl;
+    cout << "Коефіцієнт варіації: " << coeff_var1 << endl;
+
+ 
+    cout << "\nДруга фірма:\n";
+    cout << "Математичне очікування: " << exp_value2 << endl;
+    cout << "Дисперсія: " << variance2 << endl;
+    cout << "Коефіцієнт варіації: " << coeff_var2 << endl;
+
+
+    cout << "\nВисновок: ";
+    if (coeff_var1 < coeff_var2) {
+        cout << "Краще обрати першу фірму, оскільки вона має менший ризик (менший коефіцієнт варіації).\n";
+    } else {
+        cout << "Краще обрати другу фірму, оскільки вона має менший ризик (менший коефіцієнт варіації).\n";
+    }
+
+    return 0;
+}
